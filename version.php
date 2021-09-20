@@ -24,6 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021091900;
+$plugin->version   = 2021092000;
 $plugin->requires  = 2020110900;
 $plugin->component = 'pangolin_frontpage';
