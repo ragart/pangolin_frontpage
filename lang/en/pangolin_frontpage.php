@@ -36,5 +36,4 @@ $string['setting:coursecategories'] = 'Course categories';
 
 // Course list
 $string['mycourses'] = 'My courses';
-$string['mycourses:courseimage'] = 'Course image';
 $string['mycourses:coursename'] = 'Course fullname';
