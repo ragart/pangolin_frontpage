@@ -1,0 +1,19 @@
+<div id="pangolin-frontpage-courses">
+    <h2>{{#str}} mycourses, pangolin_frontpage {{/str}}</h2>
+    <div class="pangolin-frontpage-course-list card-deck">
+    {{#courses}}
+        <div id="pangolin-frontpage-course-{{courseid}}" class="pangolin-frontpage-course card">
+            <div class="card-body pr-1">
+                <div class="d-flex align-items-start">
+                    <div class="w-100 text-truncate">
+                        <a href="/course/view.php?id={{courseid}}" class="aalink coursename mr-2">
+                            <span class="sr-only">{{#str}} mycourses:coursename, pangolin_frontpage {{/str}}</span>
+                            <span class="multiline">{{coursename}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/courses}}
+    </div>
+</div>

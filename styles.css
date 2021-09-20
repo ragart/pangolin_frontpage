@@ -1,0 +1,29 @@
+#pangolin-frontpage-courses > h2 {
+    margin-bottom: .8em;
+}
+
+#pangolin-frontpage-courses .pangolin-frontpage-course {
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-bottom: .5rem;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    #pangolin-frontpage-courses .pangolin-frontpage-course {
+        width: calc(50% - 0.5rem);
+    }
+}
+
+@media (min-width: 992px) {
+    #pangolin-frontpage-courses .pangolin-frontpage-course {
+        width: calc(33.33% - 0.5rem);
+    }
+}
+
+@media (min-width: 1200px) {
+    #pangolin-frontpage-courses .pangolin-frontpage-course {
+        width: calc(25% - 0.5rem);
+    }
+}

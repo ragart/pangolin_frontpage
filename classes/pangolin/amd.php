@@ -24,6 +24,9 @@
 
 namespace pangolin_frontpage\pangolin;
 
+use context_system;
+use context_course;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -45,7 +48,10 @@ class amd implements \local_pangolin\interfaces\amd
      */
     public static function load_is_allowed()
     {
-        return false;
+        global $PAGE;
+        return ($PAGE->bodyid == 'page-my-index'
+            or $PAGE->bodyid == 'page-site-index');
+
     }
 
     /**
@@ -55,7 +61,40 @@ class amd implements \local_pangolin\interfaces\amd
      */
     public static function get_parameters()
     {
-        return [];
+        global $DB, $PAGE, $OUTPUT;
+        switch ($PAGE->bodyid) {
+            case 'page-my-index':
+                return [];
+            break;
+            case 'page-site-index':
+                if (!$categories = get_config('pangolin_frontpage', 'course_categories')) {
+                    return [];
+                }
+                $categories = array_map('trim', explode(',', $categories));
+                sort($categories);
+                list($insql, $inparams) = $DB->get_in_or_equal($categories);
+                if (!$courses = $DB->get_records_sql('SELECT mc.id as courseid,
+                                                             mc.fullname as coursename
+                                                        FROM {course} mc
+                                                  INNER JOIN {course_categories} mcc
+                                                             ON mcc.id = mc.category
+                                                       WHERE mc.category ' . $insql . '
+                                                    ORDER BY mcc.sortorder ASC,
+                                                             mc.fullname', $inparams)) {
+                    return [];
+                }
+                if (!has_capability('moodle/site:config', context_system::instance())) {
+                    $courses = array_filter($courses, function($course) {
+                        return is_enrolled(context_course::instance($course->courseid));
+                    });
+                }
+                return [
+                    array_values($courses)
+                ];
+            break;
+            default:
+        }
+        
     }
 
 }

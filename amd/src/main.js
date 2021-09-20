@@ -21,6 +21,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- export const init = () => {
-    return true;
+import $ from 'jquery';
+import Templates from 'core/templates';
+
+export const init = (data) => {
+    switch (document.body.id) {
+        case 'page-site-index':
+            if (Array.isArray(data) && data.length) {
+                Templates.render('pangolin_frontpage/course_list', {'courses': data})
+                .then(function(html) {
+                    $('#maincontent').after(html);
+                    return true;
+                })
+                .catch();
+            }
+        break;
+        default:
+    }
 };

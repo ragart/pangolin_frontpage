@@ -15,26 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language strings.
+ * Plugin settings
  *
  * @package    pangolin_frontpage
  * @copyright  2021 Salvador Banderas
- * @author     Salvador Banderas <info@salvadorbanderas.eu>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-// General
-$string['pluginname'] = 'Frontpage';
-
-// Privacy
-$string['privacy:metadata'] = 'This plugin does not store any personal user data.';
-
-// Settings
-$string['setting:coursecategories'] = 'Course categories';
-
-// Course list
-$string['mycourses'] = 'My courses';
-$string['mycourses:courseimage'] = 'Course image';
-$string['mycourses:coursename'] = 'Course fullname';
+if ($hassiteconfig) {
+    $settings = new admin_settingpage(
+        'pangolin_frontpage',
+        new lang_string('pluginname', 'pangolin_frontpage')
+    );
+    $course_categories = $DB->get_records('course_categories');
+    $course_categories = array_map(function($category) {
+        return $category->name;
+    }, $course_categories);
+    asort($course_categories);
+    $settings->add(
+        new admin_setting_configmultiselect(
+            'pangolin_frontpage/course_categories',
+            new lang_string('setting:coursecategories', 'pangolin_frontpage'),
+            null,
+            [],
+            $course_categories
+        )
+    );
+}
